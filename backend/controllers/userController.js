@@ -55,7 +55,7 @@ const loginController = async (req, res) => {
     });
     user.password = undefined;
     return res.status(200).send({
-      message: "Login success successfully",
+      message: "Login successfully",
       success: true,
       token,
       user: user,
