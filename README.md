@@ -1,11 +1,14 @@
 # HomiFind App
 
 ## Project Overview
-HomiFind is a comprehensive real estate application designed to simplify the process of finding, renting, or purchasing homes. Our platform aims to provide users with a seamless experience in browsing property listings, accessing detailed information, and making informed decisions. The application is user-friendly, efficient, and tailored to meet modern real estate needs.
+HomiFind is a comprehensive real estate application designed to simplify finding, renting, or purchasing homes. Our platform aims to provide users with a seamless experience in browsing property listings, accessing detailed information, and making informed decisions. The application is user-friendly, efficient, and tailored to meet modern real estate needs.
 
 ## Key Features
-- Property Listings: Users can browse an extensive database of properties with detailed descriptions, photos, and pricing.
-- Advanced Search & Filters: Filter properties by location and type.
+- **User Registration**: Users can register as renters or property owners.
+- **Property Listings**: Users can browse a database of available properties with detailed information.
+- **Search Filters**: Users can filter properties based on criteria such as location, rent amount, and property type.
+- **Admin Management**: Admins can approve owner accounts, manage booking history, etc.
+
 
 ## Technologies Used  
 - **Frontend**: ReactJS
