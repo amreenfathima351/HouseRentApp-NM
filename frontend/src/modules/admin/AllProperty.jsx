@@ -33,41 +33,57 @@ const AllProperty = () => {
    }, []);
 
    return (
-      <div>
-         <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-               <TableHead>
-                  <TableRow>
-                     <TableCell>Property ID</TableCell>
-                     <TableCell align="center">Owner ID</TableCell>
-                     <TableCell align="center">Property Type</TableCell>
-                     <TableCell align="center">Property Ad Type</TableCell>
-                     <TableCell align="center">Property Address</TableCell>
-                     <TableCell align="center">Owner Contact</TableCell>
-                     <TableCell align="center">Property Amt</TableCell>
-                  </TableRow>
-               </TableHead>
-               <TableBody>
-                  {allProperties.map((property) => (
-                     <TableRow
-                        key={property._id}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                     >
-                        <TableCell component="th" scope="row">
-                           {property._id}
-                        </TableCell>
-                        <TableCell align="center">{property.ownerId}</TableCell>
-                        <TableCell align="center">{property.propertyType}</TableCell>
-                        <TableCell align="center">{property.propertyType}</TableCell>
-                        <TableCell align="center">{property.propertyAddress}</TableCell>
-                        <TableCell align="center">{property.ownerContact}</TableCell>
-                        <TableCell align="center">{property.propertyAmt}</TableCell>
-                     </TableRow>
-                  ))}
-               </TableBody>
-            </Table>
-         </TableContainer>
-      </div>
+     <div>
+       <TableContainer component={Paper}>
+         <Table sx={{ minWidth: 650 }} aria-label="simple table">
+           <TableHead>
+             <TableRow>
+               <TableCell>
+                 <b>Property ID</b>
+               </TableCell>
+               <TableCell align="center">
+                 <b>Owner ID</b>
+               </TableCell>
+               <TableCell align="center">
+                 <b>Property Type</b>
+               </TableCell>
+               <TableCell align="center">
+                 <b>Property Ad Type</b>
+               </TableCell>
+               <TableCell align="center">
+                 <b>Property Address</b>
+               </TableCell>
+               <TableCell align="center">
+                 <b>Owner Contact</b>
+               </TableCell>
+               <TableCell align="center">
+                 <b>Property Amount</b>
+               </TableCell>
+             </TableRow>
+           </TableHead>
+           <TableBody>
+             {allProperties.map((property) => (
+               <TableRow
+                 key={property._id}
+                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+               >
+                 <TableCell component="th" scope="row">
+                   {property._id}
+                 </TableCell>
+                 <TableCell align="center">{property.ownerId}</TableCell>
+                 <TableCell align="center">{property.propertyType}</TableCell>
+                 <TableCell align="center">{property.propertyType}</TableCell>
+                 <TableCell align="center">
+                   {property.propertyAddress}
+                 </TableCell>
+                 <TableCell align="center">{property.ownerContact}</TableCell>
+                 <TableCell align="center">{property.propertyAmt}</TableCell>
+               </TableRow>
+             ))}
+           </TableBody>
+         </Table>
+       </TableContainer>
+     </div>
    );
 };
 

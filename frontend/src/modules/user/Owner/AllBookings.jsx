@@ -50,43 +50,75 @@ const AllProperty = () => {
    }
 
    return (
-      <div>
-         <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-               <TableHead>
-                  <TableRow>
-                     <TableCell>Booking ID</TableCell>
-                     <TableCell align="center">Property ID</TableCell>
-                     <TableCell align="center">Tenent Name</TableCell>
-                     <TableCell align="center">Tenent Phone</TableCell>
-                     <TableCell align="center">Booking Status</TableCell>
-                     <TableCell align="center">Actions</TableCell>
-                  </TableRow>
-               </TableHead>
-               <TableBody>
-                  {allBookings.map((booking) => (
-                     <TableRow
-                        key={booking._id}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+     <div>
+       <TableContainer component={Paper}>
+         <Table sx={{ minWidth: 650 }} aria-label="simple table">
+           <TableHead>
+             <TableRow>
+               <TableCell>
+                 <b>Booking ID</b>
+               </TableCell>
+               <TableCell align="center">
+                 <b>Property ID</b>
+               </TableCell>
+               <TableCell align="center">
+                 <b>Tenent Name</b>
+               </TableCell>
+               <TableCell align="center">
+                 <b>Tenent Phone</b>
+               </TableCell>
+               <TableCell align="center">
+                 <b>Booking Status</b>
+               </TableCell>
+               <TableCell align="center">
+                 <b>Actions</b>
+               </TableCell>
+             </TableRow>
+           </TableHead>
+           <TableBody>
+             {allBookings.map((booking) => (
+               <TableRow
+                 key={booking._id}
+                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+               >
+                 <TableCell component="th" scope="row">
+                   {booking._id}
+                 </TableCell>
+                 <TableCell align="center">{booking.propertyId}</TableCell>
+                 <TableCell align="center">{booking.userName}</TableCell>
+                 <TableCell align="center">{booking.phone}</TableCell>
+                 <TableCell align="center">{booking.bookingStatus}</TableCell>
+                 <TableCell align="center">
+                   {booking?.bookingStatus === "pending" ? (
+                     <Button
+                       onClick={() =>
+                         handleStatus(booking._id, booking.propertyId, "booked")
+                       }
+                       variant="outline-success"
                      >
-                        <TableCell component="th" scope="row">
-                           {booking._id}
-                        </TableCell>
-                        <TableCell align="center">{booking.propertyId}</TableCell>
-                        <TableCell align="center">{booking.userName}</TableCell>
-                        <TableCell align="center">{booking.phone}</TableCell>
-                        <TableCell align="center">{booking.bookingStatus}</TableCell>
-                        <TableCell align="center">
-                           {
-                              booking?.bookingStatus === "pending" ? <Button onClick={() => handleStatus(booking._id, booking.propertyId, 'booked')} variant='outline-success'>Change</Button> : <Button onClick={() => handleStatus(booking._id, booking.propertyId, 'pending')} variant='outline-danger'>Change</Button>
-                           }
-                        </TableCell>
-                     </TableRow>
-                  ))}
-               </TableBody>
-            </Table>
-         </TableContainer>
-      </div>
+                       Change
+                     </Button>
+                   ) : (
+                     <Button
+                       onClick={() =>
+                         handleStatus(
+                           booking._id,
+                           booking.propertyId,
+                           "pending"
+                         )
+                       }
+                       variant="outline-danger"
+                     >
+                       Change
+                     </Button>
+                   )}
+                 </TableCell>
+               </TableRow>
+             ))}
+           </TableBody>
+         </Table>
+       </TableContainer>
+     </div>
    );
 };
 

@@ -33,37 +33,49 @@ const AllProperty = () => {
    }, []);
 
    return (
-      <div>
-         <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-               <TableHead>
-                  <TableRow>
-                     <TableCell>Booking ID</TableCell>
-                     <TableCell>Property ID</TableCell>
-                     <TableCell align="center">Tenent Name</TableCell>
-                     <TableCell align="center">Phone</TableCell>
-                     <TableCell align="center">Booking Status</TableCell>
-                  </TableRow>
-               </TableHead>
-               <TableBody>
-                  {allProperties.map((booking) => (
-                     <TableRow
-                        key={booking._id}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                     >
-                        <TableCell component="th" scope="row">
-                           {booking._id}
-                        </TableCell>
-                        <TableCell component="th" scope="row">{booking.propertyId}</TableCell>
-                        <TableCell align="center">{booking.userName}</TableCell>
-                        <TableCell align="center">{booking.phone}</TableCell>
-                        <TableCell align="center">{booking.bookingStatus}</TableCell>
-                     </TableRow>
-                  ))}
-               </TableBody>
-            </Table>
-         </TableContainer>
-      </div>
+     <div>
+       <TableContainer component={Paper}>
+         <Table sx={{ minWidth: 650 }} aria-label="simple table">
+           <TableHead>
+             <TableRow>
+               <TableCell>
+                 <b>Booking ID</b>
+               </TableCell>
+               <TableCell>
+                 <b>Property ID</b>
+               </TableCell>
+               <TableCell align="center">
+                 <b>Tenent Name</b>
+               </TableCell>
+               <TableCell align="center">
+                 <b>Phone</b>
+               </TableCell>
+               <TableCell align="center">
+                 <b>Booking Status</b>
+               </TableCell>
+             </TableRow>
+           </TableHead>
+           <TableBody>
+             {allProperties.map((booking) => (
+               <TableRow
+                 key={booking._id}
+                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+               >
+                 <TableCell component="th" scope="row">
+                   {booking._id}
+                 </TableCell>
+                 <TableCell component="th" scope="row">
+                   {booking.propertyId}
+                 </TableCell>
+                 <TableCell align="center">{booking.userName}</TableCell>
+                 <TableCell align="center">{booking.phone}</TableCell>
+                 <TableCell align="center">{booking.bookingStatus}</TableCell>
+               </TableRow>
+             ))}
+           </TableBody>
+         </Table>
+       </TableContainer>
+     </div>
    );
 };
 

@@ -138,7 +138,7 @@ function AddProperty() {
                   />
                </Form.Group>
                <FloatingLabel
-                  label="Additional details for the Property"
+                  label=" Additional details for the Property"
                   className="mt-4"
                >
                   <Form.Control name='additionalInfo' value={propertyDetails.additionalInfo} onChange={handleChange} as="textarea" placeholder="Leave a comment here" />

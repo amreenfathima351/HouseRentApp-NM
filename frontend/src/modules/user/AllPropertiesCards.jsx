@@ -89,7 +89,7 @@ const AllPropertiesCards = ({ loggedIn }) => {
             <p className="mt-3">Filter By: </p>
             <input
                type="text"
-               placeholder=": Address"
+               placeholder="Address"
                value={filterPropertyAddress}
                onChange={(e) => setPropertyAddress(e.target.value)}
             />
@@ -228,7 +228,7 @@ const AllPropertiesCards = ({ loggedIn }) => {
                   </Card>
                ))
             ) : (
-               <p>No Properties available at the moment.</p>
+               <p>No Properties available at this moment.</p>
             )}
          </div>
       </>

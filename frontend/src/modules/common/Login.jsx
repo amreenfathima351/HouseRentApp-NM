@@ -152,7 +152,7 @@ const Login = () => {
                 variant="contained"
                 style={{ width: "200px" }}
               >
-                Sign Up
+                Sign In
               </Button>
             </Box>
             <Grid container>
@@ -166,8 +166,9 @@ const Login = () => {
                   {" Click here"}
                 </Link>
               </Grid>
+              <br/>
               <Grid item>
-                Have an account?
+                Don't have an account?
                 <Link
                   style={{ color: "blue" }}
                   to={"/register"}

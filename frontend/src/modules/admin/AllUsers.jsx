@@ -48,48 +48,71 @@ const AllUsers = () => {
    };
 
    return (
-      <div>
-         <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-               <TableHead>
-                  <TableRow>
-                     <TableCell>User ID</TableCell>
-                     <TableCell align="center">Name</TableCell>
-                     <TableCell align="center">Email</TableCell>
-                     <TableCell align="center">Type</TableCell>
-                     <TableCell align="center">Granted (for Owners users only)</TableCell>
-                     <TableCell align="center">Actions</TableCell>
-                  </TableRow>
-               </TableHead>
-               <TableBody>
-                  {allUser.map((user) => (
-                     <TableRow
-                        key={user._id}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+     <div>
+       <TableContainer component={Paper}>
+         <Table sx={{ minWidth: 650 }} aria-label="simple table">
+           <TableHead>
+             <TableRow>
+               <TableCell>
+                 <b>User ID</b>
+               </TableCell>
+               <TableCell align="center">
+                 <b>Name</b>
+               </TableCell>
+               <TableCell align="center">
+                 <b>Email</b>
+               </TableCell>
+               <TableCell align="center">
+                 <b>Type</b>
+               </TableCell>
+               <TableCell align="center">
+                 <b>Granted (for Owners users only)</b>
+               </TableCell>
+               <TableCell align="center">
+                 <b>Actions</b>
+               </TableCell>
+             </TableRow>
+           </TableHead>
+           <TableBody>
+             {allUser.map((user) => (
+               <TableRow
+                 key={user._id}
+                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+               >
+                 <TableCell component="th" scope="row">
+                   {user._id}
+                 </TableCell>
+                 <TableCell align="center">{user.name}</TableCell>
+                 <TableCell align="center">{user.email}</TableCell>
+                 <TableCell align="center">{user.type}</TableCell>
+                 <TableCell align="center">{user.granted}</TableCell>
+                 <TableCell align="center">
+                   {user.type === "Owner" && user.granted === "ungranted" ? (
+                     <Button
+                       onClick={() => handleStatus(user._id, "granted")}
+                       size="small"
+                       variant="contained"
+                       color="success"
                      >
-                        <TableCell component="th" scope="row">
-                           {user._id}
-                        </TableCell>
-                        <TableCell align="center">{user.name}</TableCell>
-                        <TableCell align="center">{user.email}</TableCell>
-                        <TableCell align="center">{user.type}</TableCell>
-                        <TableCell align="center">{user.granted}</TableCell>
-                        <TableCell align="center">
-                           {user.type === 'Owner' && user.granted === 'ungranted' ? (
-                              <Button onClick={() => handleStatus(user._id, 'granted')} size='small' variant="contained" color="success">
-                                 Granted
-                              </Button>
-                           ) : user.type === 'Owner' && user.granted === 'granted' ? (
-                              <Button onClick={() => handleStatus(user._id, 'ungranted')} size='small' variant="outlined" color="error">
-                                 Ungranted
-                              </Button>
-                           ) : null}
-                        </TableCell></TableRow>
-                  ))}
-               </TableBody>
-            </Table>
-         </TableContainer>
-      </div>
+                       Granted
+                     </Button>
+                   ) : user.type === "Owner" && user.granted === "granted" ? (
+                     <Button
+                       onClick={() => handleStatus(user._id, "ungranted")}
+                       size="small"
+                       variant="outlined"
+                       color="error"
+                     >
+                       Ungranted
+                     </Button>
+                   ) : null}
+                 </TableCell>
+               </TableRow>
+             ))}
+           </TableBody>
+         </Table>
+       </TableContainer>
+     </div>
    );
 };
 
