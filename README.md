@@ -17,6 +17,31 @@ HomiFind is a comprehensive real estate application designed to simplify the pro
 ## Installation
 To get a local copy up and running, follow these steps:
 1. Clone the repository:
-
-bash
+```bash
 git clone https://github.com/amreenfathima351/HomiFind-App.git
+```
+2. Navigate to the Project directory
+```bash
+cd HomiFind-App
+```
+3. Install dependencies
+```bash
+npm install
+```
+4. Run the development server
+```bash
+npm start
+```
+
+## Usage
+Once the application is up and running, you can:
+- Browse through the listed properties.
+- Apply filters to refine your search.
+- View property details and contact property managers directly.
+
+## Team Details
+This project is a collaborative effort by a team:
+1. Amreen Fathima A - 410621104011
+2. Dharshini K - 410621104024
+3. Archanaa M - 410621104014
+4. Lufiya Banu A - 410621104052 
