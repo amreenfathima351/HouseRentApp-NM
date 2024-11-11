@@ -123,4 +123,3 @@ const AllProperty = () => {
 };
 
 export default AllProperty;
-

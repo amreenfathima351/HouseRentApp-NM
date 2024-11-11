@@ -11,7 +11,6 @@ function AddProperty() {
       propertyAddress: '',
       ownerContact: '',
       propertyAmt: 0,
-      additionalInfo: ''
    });
 
    const handleImageChange = (e) => {
@@ -42,7 +41,6 @@ function AddProperty() {
       formData.append('propertyAddress', propertyDetails.propertyAddress);
       formData.append('ownerContact', propertyDetails.ownerContact);
       formData.append('propertyAmt', propertyDetails.propertyAmt);
-      formData.append('additionalInfo', propertyDetails.additionalInfo);
 
       if (image) {
          for (let i = 0; i < image.length; i++) {
@@ -137,12 +135,6 @@ function AddProperty() {
                      onChange={handleChange}
                   />
                </Form.Group>
-               <FloatingLabel
-                  label=" Additional details for the Property"
-                  className="mt-4"
-               >
-                  <Form.Control name='additionalInfo' value={propertyDetails.additionalInfo} onChange={handleChange} as="textarea" placeholder="Leave a comment here" />
-               </FloatingLabel>
             </Row>
             <Button variant='outline-info' className='float-right' type="submit">Submit form</Button>
          </Form>

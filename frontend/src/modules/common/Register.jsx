@@ -1,19 +1,20 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Navbar from "react-bootstrap/Navbar";
-import { Container, Nav } from "react-bootstrap";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
+import {
+  Container,
+  Box,
+  Typography,
+  Button,
+  TextField,
+  Grid,
+} from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
+import Avatar from "@mui/material/Avatar";
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
 import axios from "axios";
 import { message } from "antd";
+
 const Register = () => {
   const navigate = useNavigate();
   const [data, setData] = useState({
@@ -30,59 +31,31 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!data?.name || !data?.email || !data?.password || !data?.type)
+    if (!data.name || !data.email || !data.password || !data.type)
       return alert("Please fill all fields");
-    else {
-      axios
-        .post("http://localhost:8001/api/user/register", data)
-        .then((response) => {
-          if (response.data.success) {
-            message.success(response.data.message);
-            navigate("/login");
-          } else {
-            message.error(response.data.message);
-          }
-        })
-        .catch((error) => {
-          console.log("Error", error);
-        });
-    }
+
+    axios
+      .post("http://localhost:8001/api/user/register", data)
+      .then((response) => {
+        if (response.data.success) {
+          message.success(response.data.message);
+          navigate("/login");
+        } else {
+          message.error(response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.log("Error", error);
+      });
   };
 
   return (
     <>
-      <Navbar expand="lg" className="bg-body-tertiary">
-        <Container fluid>
-          <Navbar.Brand>
-            <h2>HomiFind</h2>
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="navbarScroll" />
-          <Navbar.Collapse id="navbarScroll">
-            <Nav
-              className="me-auto my-2 my-lg-0"
-              style={{ maxHeight: "100px" }}
-              navbarScroll
-            ></Nav>
-            <Nav>
-              <Link to={"/"}>
-                <b>Home</b>
-              </Link>
-              <Link to={"/login"}>
-                <b>Login</b>
-              </Link>
-              <Link to={"/register"}>
-                <b>Register</b>
-              </Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
 
       <Container component="main">
         <Box
           sx={{
             marginTop: 8,
-            marginBottom: 4,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -91,15 +64,20 @@ const Register = () => {
           <Avatar sx={{ bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" sx={{ mt: 2 }}>
             Sign up
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
             <TextField
               margin="normal"
               fullWidth
               id="name"
-              label="Renter Full Name/Owner Name"
+              label="Full Name"
               name="name"
               value={data.name}
               onChange={handleChange}
@@ -115,50 +93,47 @@ const Register = () => {
               value={data.email}
               onChange={handleChange}
               autoComplete="email"
-              autoFocus
             />
             <TextField
               margin="normal"
               fullWidth
               name="password"
-              value={data.password}
-              onChange={handleChange}
               label="Password"
               type="password"
               id="password"
               autoComplete="current-password"
+              value={data.password}
+              onChange={handleChange}
             />
-            <InputLabel id="demo-simple-select-label">User Type</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
+            <TextField
+              margin="normal"
+              fullWidth
+              select
+              label="User Type"
               name="type"
               value={data.type}
-              label="type"
-              defaultValue="Select User"
               onChange={handleChange}
-              style={{ width: "200px" }}
+              SelectProps={{
+                native: true,
+              }}
             >
-              <MenuItem value={"Select User"} disabled>
-                Select User
-              </MenuItem>
-              <MenuItem value={"Renter"}>Renter</MenuItem>
-              <MenuItem value={"Owner"}>Owner</MenuItem>
-            </Select>
-            <Box mt={2}>
-              <Button
-                type="submit"
-                variant="contained"
-                style={{ width: "200px" }}
-              >
-                Sign Up
-              </Button>
-            </Box>
+              <option value="" disabled></option>
+              <option value="Renter">Renter</option>
+              <option value="Owner">Owner</option>
+            </TextField>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign Up
+            </Button>
             <Grid container>
-              <Grid item>
-                Have an account?
-                <Link style={{ color: "blue" }} to={"/login"} variant="body2">
-                  {" Sign In"}
+              <Grid item xs>
+                Already have an account?{" "}
+                <Link to="/login" style={{ color: "blue" }}>
+                  Sign In
                 </Link>
               </Grid>
             </Grid>

@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Navbar from "react-bootstrap/Navbar";
-import { Container, Nav } from "react-bootstrap";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
 import { message } from "antd";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Navbar from "react-bootstrap/Navbar";
+import { Container, Nav } from "react-bootstrap";
+import LoginIcon from "@mui/icons-material/Login"; // Import the login icon
 
 const Login = () => {
   const navigate = useNavigate();
@@ -80,101 +82,97 @@ const Login = () => {
 
   return (
     <>
-      <Navbar expand="lg" className="bg-body-tertiary">
+      <Navbar expand="lg" className="bg-dark">
         <Container fluid>
-          <Navbar.Brand>
-            <h2>HomiFind</h2>
+          <Navbar.Brand href="/" className="text-white">
+            HomiFind
           </Navbar.Brand>
-          <Navbar.Toggle aria-controls="navbarScroll" />
+          <Navbar.Toggle aria-controls="navarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
-              className="me-auto my-2 my-lg-0"
-              style={{ maxHeight: "100px" }}
+              className="me-auto my-2 my-lg-0 "
+              style={{ maxHeight: "100px"}}
               navbarScroll
             ></Nav>
             <Nav>
-              <Link to={"/"}>
-                <b>Home</b>
+              <Link to={"/"} className="text-white">
+                Home
               </Link>
-              <Link to={"/login"}>
-                <b>Login</b>
+              <Link to={"/login"} className="text-white">
+                Login
               </Link>
-              <Link to={"/register"}>
-                <b>Register</b>
+              <Link to={"/register"} className="text-white">
+                Register
               </Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
-
-      <Container component="main">
+      <Container>
         <Box
           sx={{
             marginTop: 8,
-            marginBottom: 4,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <LoginIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign In
+            Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
             <TextField
               margin="normal"
+              required
               fullWidth
               id="email"
               label="Email Address"
               name="email"
-              value={data.email}
-              onChange={handleChange}
               autoComplete="email"
               autoFocus
+              value={data.email}
+              onChange={handleChange}
             />
             <TextField
               margin="normal"
+              required
               fullWidth
               name="password"
-              value={data.password}
-              onChange={handleChange}
               label="Password"
               type="password"
               id="password"
               autoComplete="current-password"
+              value={data.password}
+              onChange={handleChange}
             />
-            <Box mt={2}>
-              <Button
-                type="submit"
-                variant="contained"
-                style={{ width: "200px" }}
-              >
-                Sign In
-              </Button>
-            </Box>
+           
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign In
+            </Button>
             <Grid container>
-              <Grid item>
-                forgot password?
-                <Link
-                  style={{ color: "red" }}
-                  to={"/forgotpassword"}
-                  variant="body2"
-                >
-                  {" Click here"}
+              <Grid item xs>
+                Forgot password?{" "}
+                <Link to="/forgotpassword" style={{ color: "red" }}>
+                  Click Here
                 </Link>
               </Grid>
-              <br/>
-              <Grid item>
-                Don't have an account?
-                <Link
-                  style={{ color: "blue" }}
-                  to={"/register"}
-                  variant="body2"
-                >
-                  {" Sign Up"}
+              <Grid item xs>
+                Don't have an account?{" "}
+                <Link to="/register" style={{ color: "blue" }}>
+                  Sign Up
                 </Link>
               </Grid>
             </Grid>

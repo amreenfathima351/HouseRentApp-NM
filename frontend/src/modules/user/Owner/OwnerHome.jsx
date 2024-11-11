@@ -63,9 +63,9 @@ const OwnerHome = () => {
 
   return (
     <div>
-      <Navbar expand="lg" className="bg-body-tertiary">
+      <Navbar expand="lg" className="bg-dark">
         <Container fluid>
-          <Navbar.Brand><h2>HomiFind</h2></Navbar.Brand>
+          <Navbar.Brand><h2 className='text-white'>HomiFind</h2></Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav
@@ -75,8 +75,8 @@ const OwnerHome = () => {
             >
             </Nav>
             <Nav>
-              <h5 className='mx-3'>Hi {user.userData.name}</h5>
-              <Link onClick={handleLogOut} to={'/'}>Log Out</Link>
+              <h5 className='mx-3 text-white'>Hi {user.userData.name}</h5>
+              <Link onClick={handleLogOut} to={'/'} className='text-white'>Log Out</Link>
             </Nav>
           </Navbar.Collapse>
         </Container>

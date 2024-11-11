@@ -19,7 +19,6 @@ const AllProperties = () => {
       propertyAddress: '',
       ownerContact: '',
       propertyAmt: 0,
-      additionalInfo: ''
    });
    const [allProperties, setAllProperties] = useState([]);
    const [show, setShow] = useState(false);
@@ -79,7 +78,6 @@ const AllProperties = () => {
          formData.append('propertyAddress', editingPropertyData.propertyAddress);
          formData.append('ownerContact', editingPropertyData.ownerContact);
          formData.append('propertyAmt', editingPropertyData.propertyAmt);
-         formData.append('additionalInfo', editingPropertyData.additionalInfo);
          formData.append('propertyImage', image);
          formData.append('isAvailable', status);
          const res = await axios.patch(`http://localhost:8001/api/owner/updateproperty/${propertyId}`, formData, {
@@ -96,7 +94,7 @@ const AllProperties = () => {
    };
 
    const handleDelete = async (propertyId) => {
-      let assure = window.confirm("are you sure to delete")
+      let assure = window.confirm("Are you sure to delete")
       if (assure) {
          try {
             const response = await axios.delete(`http://localhost:8001/api/owner/deleteproperty/${propertyId}`, {
@@ -269,18 +267,6 @@ const AllProperties = () => {
                                onChange={handleChange}
                              />
                            </Form.Group>
-                           <FloatingLabel
-                             label="Additional details for the Property"
-                             className="mt-4"
-                           >
-                             <Form.Control
-                               name="additionalInfo"
-                               value={editingPropertyData.additionalInfo}
-                               onChange={handleChange}
-                               as="textarea"
-                               placeholder="Leave a comment here"
-                             />
-                           </FloatingLabel>
                          </Row>
                          <Button
                            style={{ float: "right" }}
