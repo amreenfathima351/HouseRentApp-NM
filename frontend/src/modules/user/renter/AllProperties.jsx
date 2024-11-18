@@ -1,83 +1,106 @@
-import { message } from 'antd';
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import { message, Spin } from "antd";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Card, Col, Row, Tag } from "antd";
+import {
+  PhoneOutlined,
+  UserOutlined,
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+} from "@ant-design/icons";
 
 const AllProperty = () => {
-   const [allProperties, setAllProperties] = useState([]);
+  const [allProperties, setAllProperties] = useState([]);
+  const [loading, setLoading] = useState(true); 
 
-   const getAllProperty = async () => {
-      try {
-         const response = await axios.get(`http://localhost:8001/api/user/getallbookings`, {
-            headers: { 'Authorization': `Bearer ${localStorage.getItem("token")}` }
-         });
+  const getAllProperty = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5001/api/user/getallbookings`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
 
-         if (response.data.success) {
-            setAllProperties(response.data.data);
-         } else {
-            message.error(response.data.message);
-         }
-      } catch (error) {
-         console.log(error);
+      if (response.data.success) {
+        setAllProperties(response.data.data);
+      } else {
+        message.error(response.data.message);
       }
-   };
+    } catch (error) {
+      console.log(error);
+      message.error("Error fetching bookings");
+    } finally {
+      setLoading(false); 
+    }
+  };
 
-   useEffect(() => {
-      getAllProperty();
-   }, []);
+  useEffect(() => {
+    getAllProperty();
+  }, []);
 
-   return (
-     <div>
-       <TableContainer component={Paper}>
-         <Table sx={{ minWidth: 650 }} aria-label="simple table">
-           <TableHead>
-             <TableRow>
-               <TableCell>
-                 <b>Booking ID</b>
-               </TableCell>
-               <TableCell>
-                 <b>Property ID</b>
-               </TableCell>
-               <TableCell align="center">
-                 <b>Tenent Name</b>
-               </TableCell>
-               <TableCell align="center">
-                 <b>Phone</b>
-               </TableCell>
-               <TableCell align="center">
-                 <b>Booking Status</b>
-               </TableCell>
-             </TableRow>
-           </TableHead>
-           <TableBody>
-             {allProperties.map((booking) => (
-               <TableRow
-                 key={booking._id}
-                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-               >
-                 <TableCell component="th" scope="row">
-                   {booking._id}
-                 </TableCell>
-                 <TableCell component="th" scope="row">
-                   {booking.propertyId}
-                 </TableCell>
-                 <TableCell align="center">{booking.userName}</TableCell>
-                 <TableCell align="center">{booking.phone}</TableCell>
-                 <TableCell align="center">{booking.bookingStatus}</TableCell>
-               </TableRow>
-             ))}
-           </TableBody>
-         </Table>
-       </TableContainer>
-     </div>
-   );
+  const renderStatusTag = (status) => {
+    if (status === "approved") {
+      return (
+        <Tag color="green">
+          Approved <CheckCircleOutlined />
+        </Tag>
+      );
+    } else if (status === "pending") {
+      return <Tag color="orange">Pending</Tag>;
+    } else if (status === "rejected") {
+      return (
+        <Tag color="red">
+          Rejected <CloseCircleOutlined />
+        </Tag>
+      );
+    }
+    return <Tag color="default">{status}</Tag>;
+  };
+
+  if (loading) {
+    return (
+      <div
+        style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}
+      >
+        <Spin size="large" />
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <h2 style={{textAlign:"center"}}>
+        Booking History
+      </h2>
+      <Row gutter={16}>
+        {allProperties.map((booking) => (
+          <Col span={8} key={booking._id}>
+            <Card hoverable style={{ width: "100%", marginBottom: "16px" }}>
+              <Card.Meta
+                title={`Booking ID: ${booking._id}`}
+                description={`Property ID: ${booking.propertyId}`}
+              />
+              <div style={{ marginTop: 12 }}>
+                <div>
+                  <b>Tenant Name: </b> {booking.userName} <UserOutlined />
+                </div>
+                <div>
+                  <b>Phone: </b>{" "}
+                  <a href={`tel:${booking.phone}`}>
+                    <PhoneOutlined /> {booking.phone}
+                  </a>
+                </div>
+                <div style={{ marginTop: 8 }}>
+                  <b>Status: </b> {renderStatusTag(booking.bookingStatus)}
+                </div>
+              </div>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+    </div>
+  );
 };
 
 export default AllProperty;
-

@@ -1,125 +1,132 @@
-import { message } from 'antd';
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { Button } from 'react-bootstrap';
+import { message } from "antd";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Button } from "react-bootstrap";
+import {
+  BsPersonFill,
+  BsPhone,
+  BsBuilding,
+  BsClipboardCheck,
+} from "react-icons/bs";
+import "./AllProperty.css"; 
 
 const AllProperty = () => {
-   const [allBookings, setAllBookings] = useState([]);
+  const [allBookings, setAllBookings] = useState([]);
 
-   const getAllProperty = async () => {
-      try {
-         const response = await axios.get('http://localhost:8001/api/owner/getallbookings', {
-            headers: { 'Authorization': `Bearer ${localStorage.getItem("token")}` }
-         });
-         if (response.data.success) {
-            setAllBookings(response.data.data);
-         } else {
-            message.error(response.data.message);
-         }
-      } catch (error) {
-         console.log(error);
+  const getAllProperty = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5001/api/owner/getallbookings",
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      if (response.data.success) {
+        setAllBookings(response.data.data);
+      } else {
+        message.error(response.data.message);
       }
-   };
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-   useEffect(() => {
-      getAllProperty();
-   }, []);
+  useEffect(() => {
+    getAllProperty();
+  }, []);
 
-   const handleStatus = async (bookingId, propertyId, status) => {
-      try {
-         const res = await axios.post('http://localhost:8001/api/owner/handlebookingstatus', { bookingId, propertyId, status }, {
-            headers: { 'Authorization': `Bearer ${localStorage.getItem("token")}` }
-         })
-         if (res.data.success) {
-            message.success(res.data.message)
-            getAllProperty()
-         }
-         else {
-            message.error('Something went wrong')
-         }
-      } catch (error) {
-         console.log(error);
+  const handleStatus = async (bookingId, propertyId, status) => {
+    try {
+      const res = await axios.post(
+        "http://localhost:5001/api/owner/handlebookingstatus",
+        { bookingId, propertyId, status },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+      if (res.data.success) {
+        message.success(res.data.message);
+        getAllProperty();
+      } else {
+        message.error("Something went wrong");
       }
-   }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-   return (
-     <div>
-       <TableContainer component={Paper}>
-         <Table sx={{ minWidth: 650 }} aria-label="simple table">
-           <TableHead>
-             <TableRow>
-               <TableCell>
-                 <b>Booking ID</b>
-               </TableCell>
-               <TableCell align="center">
-                 <b>Property ID</b>
-               </TableCell>
-               <TableCell align="center">
-                 <b>Tenent Name</b>
-               </TableCell>
-               <TableCell align="center">
-                 <b>Tenent Phone</b>
-               </TableCell>
-               <TableCell align="center">
-                 <b>Booking Status</b>
-               </TableCell>
-               <TableCell align="center">
-                 <b>Actions</b>
-               </TableCell>
-             </TableRow>
-           </TableHead>
-           <TableBody>
-             {allBookings.map((booking) => (
-               <TableRow
-                 key={booking._id}
-                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-               >
-                 <TableCell component="th" scope="row">
-                   {booking._id}
-                 </TableCell>
-                 <TableCell align="center">{booking.propertyId}</TableCell>
-                 <TableCell align="center">{booking.userName}</TableCell>
-                 <TableCell align="center">{booking.phone}</TableCell>
-                 <TableCell align="center">{booking.bookingStatus}</TableCell>
-                 <TableCell align="center">
-                   {booking?.bookingStatus === "pending" ? (
-                     <Button
-                       onClick={() =>
-                         handleStatus(booking._id, booking.propertyId, "booked")
-                       }
-                       variant="outline-success"
-                     >
-                       Change
-                     </Button>
-                   ) : (
-                     <Button
-                       onClick={() =>
-                         handleStatus(
-                           booking._id,
-                           booking.propertyId,
-                           "pending"
-                         )
-                       }
-                       variant="outline-danger"
-                     >
-                       Change
-                     </Button>
-                   )}
-                 </TableCell>
-               </TableRow>
-             ))}
-           </TableBody>
-         </Table>
-       </TableContainer>
-     </div>
-   );
+  return (
+    <div className="all-property-container">
+      {allBookings.map((booking) => (
+        <div className="booking-item" key={booking._id}>
+          <div className="booking-header">
+            <h3>
+              <BsClipboardCheck /> Booking Details
+            </h3>
+          </div>
+          <div className="booking-details">
+            <div className="detail-section">
+              <span className="icon">
+                <BsBuilding />
+              </span>
+              <p>
+                <strong>Property ID:</strong> {booking.propertyId}
+              </p>
+            </div>
+            <div className="detail-section">
+              <span className="icon">
+                <BsPersonFill />
+              </span>
+              <p>
+                <strong>Tenant Name:</strong> {booking.userName}
+              </p>
+            </div>
+            <div className="detail-section">
+              <span className="icon">
+                <BsPhone />
+              </span>
+              <p>
+                <strong>Tenant Phone:</strong> {booking.phone}
+              </p>
+            </div>
+            <div className="detail-section status-section">
+              <strong>Status:</strong>
+              <p
+                className={`status ${
+                  booking.bookingStatus === "pending"
+                    ? "status-pending"
+                    : "status-booked"
+                }`}
+              >
+                {booking.bookingStatus}
+              </p>
+            </div>
+          </div>
+          <div className="actions-section">
+            {booking.bookingStatus === "pending" ? (
+              <Button
+                onClick={() =>
+                  handleStatus(booking._id, booking.propertyId, "booked")
+                }
+                className="action-button approve"
+              >
+                Approve
+              </Button>
+            ) : (
+              <Button
+                onClick={() =>
+                  handleStatus(booking._id, booking.propertyId, "pending")
+                }
+                className="action-button revert"
+              >
+                Revert
+              </Button>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 };
 
 export default AllProperty;

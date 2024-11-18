@@ -1,15 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Card,
-  Modal,
-  Carousel,
-  Col,
-  Form,
-  InputGroup,
-  Row,
-} from "react-bootstrap";
+import { Button, Card, Modal, Carousel, Col, Form, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { message } from "antd";
 
@@ -41,7 +32,7 @@ const AllPropertiesCards = ({ loggedIn }) => {
   const getAllProperties = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:8001/api/user/getAllProperties"
+        "http://localhost:5001/api/user/getAllProperties"
       );
       setAllProperties(res.data.data);
     } catch (error) {
@@ -53,7 +44,7 @@ const AllPropertiesCards = ({ loggedIn }) => {
     try {
       await axios
         .post(
-          `http://localhost:8001/api/user/bookinghandle/${propertyId}`,
+          `http://localhost:5001/api/user/bookinghandle/${propertyId}`,
           { userDetails, status, ownerId },
           {
             headers: {
@@ -105,28 +96,30 @@ const AllPropertiesCards = ({ loggedIn }) => {
 
   return (
     <>
-      <div className="mt-4 filter-container text-center">
-        <p className="mt-3">Filter By:</p>
+      {/* Filter Section */}
+
+      <div className="filter-container d-flex justify-content-around align-items-center p-3 bg-light shadow-sm">
         <input
           type="text"
           placeholder="Address"
           value={filterPropertyAddress}
           onChange={(e) => setPropertyAddress(e.target.value)}
-          className="m-1 p-2 rounded"
+          className="rounded"
+          width={"100%"}
         />
         <select
+          className="form-select"
           value={filterPropertyAdType}
           onChange={(e) => setPropertyAdType(e.target.value)}
-          className="m-1 p-2 rounded"
         >
           <option value="">All Ad Types</option>
           <option value="sale">Sale</option>
           <option value="rent">Rent</option>
         </select>
         <select
+          className="form-select"
           value={filterPropertyType}
           onChange={(e) => setPropertyType(e.target.value)}
-          className="m-1 p-2 rounded"
         >
           <option value="">All Types</option>
           <option value="commercial">Commercial</option>
@@ -134,211 +127,172 @@ const AllPropertiesCards = ({ loggedIn }) => {
           <option value="residential">Residential</option>
         </select>
       </div>
-      <div className="d-flex column mt-5">
-        {filteredProperties && filteredProperties.length > 0 ? (
-          filteredProperties.map((property) => (
-            <Card
-              border="dark"
-              key={property._id}
-              style={{ width: "18rem", marginLeft: 10 }}
-            >
-              <Card.Body>
-                <Card.Title>
-                  <img
-                    src={`http://localhost:8001${property.propertyImage[0].path}`}
-                    alt="photos"
+
+      {/* Properties Grid */}
+      <div className="property-grid container mt-4">
+        <Row className="gy-4">
+          {filteredProperties.length > 0 ? (
+            filteredProperties.map((property) => (
+              <Col lg={4} md={6} sm={12} key={property._id}>
+                <Card className="h-100 shadow-sm">
+                  <Card.Img
+                    variant="top"
+                    src={`http://localhost:5001${property.propertyImage[0].path}`}
+                    style={{ height: "200px", objectFit: "cover" }}
                   />
-                </Card.Title>
-                <Card.Text>
-                  <p style={{ fontWeight: 600 }} className="my-1">
-                    Location:
-                  </p>{" "}
-                  {property.propertyAddress} <br />
-                  <p style={{ fontWeight: 600 }} className="my-1">
-                    Property Type:
-                  </p>{" "}
-                  {property.propertyType} <br />
-                  <p style={{ fontWeight: 600 }} className="my-1">
-                    Ad Type:
-                  </p>{" "}
-                  {property.propertyAdType} <br />
-                  {!loggedIn ? (
-                    <></>
-                  ) : (
-                    <>
-                      <p style={{ fontWeight: 600 }} className="my-1">
-                        Owner Contact:
-                      </p>{" "}
-                      {property.ownerContact} <br />
-                      <p style={{ fontWeight: 600 }} className="my-1">
-                        Availabilty:
-                      </p>{" "}
-                      {property.isAvailable} <br />
-                      <p style={{ fontWeight: 600 }} className="my-1">
-                        Property Amount:
-                      </p>{" "}
-                      Rs.{property.propertyAmt}
-                      <br />
-                    </>
-                  )}
-                </Card.Text>
-                {!loggedIn ? (
-                  <>
-                    <p style={{ fontSize: 12, color: "orange", marginTop: 20 }}>
-                      For more details, click on get info
+                  <Card.Body>
+                    <h5 className="card-title">{property.propertyAddress}</h5>
+                    <p className="text-muted mb-2">
+                      <strong>Type:</strong> {property.propertyType}
                     </p>
-                    <Link to={"/login"}>
-                      <Button style={{ float: "left" }} variant="outline-dark">
-                        Get Info
-                      </Button>
-                    </Link>
-                  </>
-                ) : (
-                  <div>
-                    {property.isAvailable === "Available" ? (
+                    <p className="text-muted mb-2">
+                      <strong>Ad:</strong> {property.propertyAdType}
+                    </p>
+                    {loggedIn ? (
                       <>
-                        <p
-                          style={{
-                            float: "left",
-                            fontSize: 12,
-                            color: "orange",
-                          }}
-                        >
-                          Get More Info of the Property
+                        <p className="text-muted mb-2">
+                          <strong>Owner Contact:</strong>{" "}
+                          {property.ownerContact}
                         </p>
-                        <Button
-                          onClick={() => handleShow(property._id)}
-                          style={{ float: "right" }}
-                          variant="outline-dark"
-                        >
-                          Get Info
-                        </Button>
-                        <Modal
-                          show={show && propertyOpen === property._id}
-                          onHide={handleClose}
-                        >
-                          <Modal.Header closeButton>
-                            <Modal.Title>Property Info</Modal.Title>
-                          </Modal.Header>
-                          <Modal.Body>
-                            {property.propertyImage &&
-                              property.propertyImage.length > 0 && (
-                                <Carousel
-                                  activeIndex={index}
-                                  onSelect={handleSelect}
-                                >
-                                  {property.propertyImage.map((image, idx) => (
-                                    <Carousel.Item key={idx}>
-                                      <img
-                                        src={`http://localhost:8001${image.path}`}
-                                        alt={`Image ${idx + 1}`}
-                                        className="d-block w-100"
-                                      />
-                                    </Carousel.Item>
-                                  ))}
-                                </Carousel>
-                              )}
-                            <div>
-                              <div className="d-flex my-3">
-                                <div>
-                                  <p className="my-1">
-                                    <b>Owner Contact:</b>{" "}
-                                    {property.ownerContact}{" "}
-                                  </p>
-                                  <p className="my-1">
-                                    <b>Availabilty:</b> {property.isAvailable}{" "}
-                                  </p>
-                                  <p className="my-1">
-                                    <b>Property Amount: </b>Rs.
-                                    {property.propertyAmt}
-                                  </p>
-                                </div>
-                                <div className="mx-4">
-                                  <p className="my-1">
-                                    <b>Location:</b> {property.propertyAddress}{" "}
-                                  </p>
-                                  <p className="my-1">
-                                    <b>Property Type:</b>{" "}
-                                    {property.propertyType}{" "}
-                                  </p>
-                                  <p className="my-1">
-                                    <b>Ad Type: </b>
-                                    {property.propertyAdType}
-                                  </p>
-                                </div>
-                              </div>
-                              <p className="my-1">
-                                <b>Additional Info: </b>
-                                {property.additionalInfo}
-                              </p>
-                            </div>
-                            <hr />
-                            <div>
-                              <span className="w-100">
-                                <h4>
-                                  <b>Your Details to confirm booking</b>
-                                </h4>
-                              </span>
-                              <Form
-                                onSubmit={(e) => {
-                                  e.preventDefault();
-                                  handleBooking(
-                                    "pending",
-                                    property._id,
-                                    property.ownerId
-                                  );
-                                }}
-                              >
-                                <Row className="mb-3">
-                                  <Form.Group as={Col} md="6">
-                                    <Form.Label>Full Name</Form.Label>
-                                    <InputGroup hasValidation>
-                                      <Form.Control
-                                        type="text"
-                                        placeholder="Full Name"
-                                        aria-describedby="inputGroupPrepend"
-                                        required
-                                        name="fullName"
-                                        value={userDetails.fullName}
-                                        onChange={handleChange}
-                                      />
-                                    </InputGroup>
-                                  </Form.Group>
-                                  <Form.Group as={Col} md="6">
-                                    <Form.Label>Phone Number</Form.Label>
-                                    <InputGroup hasValidation>
-                                      <Form.Control
-                                        type="number"
-                                        placeholder="Phone Number"
-                                        aria-describedby="inputGroupPrepend"
-                                        required
-                                        name="phone"
-                                        value={userDetails.phone}
-                                        onChange={handleChange}
-                                      />
-                                    </InputGroup>
-                                  </Form.Group>
-                                </Row>
-                                <Button type="submit" variant="secondary">
-                                  Book Property
-                                </Button>
-                              </Form>
-                            </div>
-                          </Modal.Body>
-                        </Modal>
+                        <p className="text-muted mb-2">
+                          <strong>Available:</strong> {property.isAvailable}
+                        </p>
+                        <p className="text-muted mb-2">
+                          <strong>Amount:</strong> Rs.{property.propertyAmt}
+                        </p>
                       </>
                     ) : (
-                      <p>Not Available</p>
+                      <p className="text-danger mt-3">
+                        Login to view more details
+                      </p>
                     )}
-                  </div>
-                )}
-              </Card.Body>
-            </Card>
-          ))
-        ) : (
-          <p>No Properties available at this moment.</p>
-        )}
+                    {loggedIn && property.isAvailable === "Available" ? (
+                      <Button
+                        variant="outline-dark"
+                        onClick={() => handleShow(property._id)}
+                        className="mt-2"
+                      >
+                        Book Now
+                      </Button>
+                    ) : (
+                      !loggedIn && (
+                        <Link to="/login">
+                          <Button variant="secondary" className="mt-2">
+                            Get Info
+                          </Button>
+                        </Link>
+                      )
+                    )}
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))
+          ) : (
+            <p className="text-center">
+              No properties available at the moment.
+            </p>
+          )}
+        </Row>
       </div>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Property Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {propertyOpen &&
+            allProperties.find((property) => property._id === propertyOpen) && (
+              <>
+                <Carousel activeIndex={index} onSelect={handleSelect}>
+                  {allProperties
+                    .find((property) => property._id === propertyOpen)
+                    .propertyImage.map((image, idx) => (
+                      <Carousel.Item key={idx}>
+                        <img
+                          className="d-block w-100"
+                          src={`http://localhost:5001${image.path}`}
+                          alt={`Slide ${idx + 1}`}
+                          style={{ height: "300px", objectFit: "cover" }}
+                        />
+                      </Carousel.Item>
+                    ))}
+                </Carousel>
+                <div className="mt-3">
+                  <p>
+                    <strong>Location:</strong>{" "}
+                    {
+                      allProperties.find(
+                        (property) => property._id === propertyOpen
+                      ).propertyAddress
+                    }
+                  </p>
+                  <p>
+                    <strong>Type:</strong>{" "}
+                    {
+                      allProperties.find(
+                        (property) => property._id === propertyOpen
+                      ).propertyType
+                    }
+                  </p>
+                  <p>
+                    <strong>Ad Type:</strong>{" "}
+                    {
+                      allProperties.find(
+                        (property) => property._id === propertyOpen
+                      ).propertyAdType
+                    }
+                  </p>
+                  <p>
+                    <strong>Amount:</strong> Rs.
+                    {
+                      allProperties.find(
+                        (property) => property._id === propertyOpen
+                      ).propertyAmt
+                    }
+                  </p>
+                  <Form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleBooking(
+                        "pending",
+                        propertyOpen,
+                        allProperties.find(
+                          (property) => property._id === propertyOpen
+                        ).ownerId
+                      );
+                    }}
+                  >
+                    <Form.Group className="mb-3">
+                      <Form.Label>Full Name</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter your full name"
+                        name="fullName"
+                        value={userDetails.fullName}
+                        onChange={handleChange}
+                        required
+                      />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Phone Number</Form.Label>
+                      <Form.Control
+                        type="number"
+                        placeholder="Enter your phone number"
+                        name="phone"
+                        value={userDetails.phone}
+                        onChange={handleChange}
+                        required
+                      />
+                    </Form.Group>
+                    <Button type="submit" variant="success">
+                      Confirm Booking
+                    </Button>
+                  </Form>
+                </div>
+              </>
+            )}
+        </Modal.Body>
+      </Modal>
     </>
   );
 };

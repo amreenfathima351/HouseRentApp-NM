@@ -7,13 +7,19 @@ import {
   Button,
   TextField,
   Grid,
+  Card,
+  CardContent,
+  Avatar,
+  InputAdornment,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Avatar from "@mui/material/Avatar";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
+import PersonIcon from "@mui/icons-material/Person";
+import EmailIcon from "@mui/icons-material/Email";
+import LockIcon from "@mui/icons-material/Lock";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import axios from "axios";
 import { message } from "antd";
+import NavBar from "./NavBar";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -31,11 +37,12 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!data.name || !data.email || !data.password || !data.type)
+    if (!data.name || !data.email || !data.password || !data.type) {
       return alert("Please fill all fields");
+    }
 
     axios
-      .post("http://localhost:8001/api/user/register", data)
+      .post("http://localhost:5001/api/user/register", data)
       .then((response) => {
         if (response.data.success) {
           message.success(response.data.message);
@@ -51,94 +58,134 @@ const Register = () => {
 
   return (
     <>
-
-      <Container component="main">
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Avatar sx={{ bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5" sx={{ mt: 2 }}>
-            Sign up
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
-            <TextField
-              margin="normal"
-              fullWidth
-              id="name"
-              label="Full Name"
-              name="name"
-              value={data.name}
-              onChange={handleChange}
-              autoComplete="name"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              value={data.email}
-              onChange={handleChange}
-              autoComplete="email"
-            />
-            <TextField
-              margin="normal"
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={data.password}
-              onChange={handleChange}
-            />
-            <TextField
-              margin="normal"
-              fullWidth
-              select
-              label="User Type"
-              name="type"
-              value={data.type}
-              onChange={handleChange}
-              SelectProps={{
-                native: true,
-              }}
+      <NavBar />
+      <Container component="main" maxWidth="sm" sx={{ mt: 8 }}>
+        <Card sx={{ p: 4, borderRadius: 3, boxShadow: 5 }}>
+          <CardContent>
+            <Box display="flex" justifyContent="center" mb={2}>
+              <Avatar sx={{ bgcolor: "primary.main" }}>
+                <LockOutlinedIcon />
+              </Avatar>
+            </Box>
+            <Typography
+              component="h1"
+              variant="h5"
+              align="center"
+              sx={{ fontWeight: "bold", mb: 2 }}
             >
-              <option value="" disabled></option>
-              <option value="Renter">Renter</option>
-              <option value="Owner">Owner</option>
-            </TextField>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              Create an Account
+            </Typography>
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              noValidate
+              sx={{ mt: 1 }}
             >
-              Sign Up
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                Already have an account?{" "}
-                <Link to="/login" style={{ color: "blue" }}>
-                  Sign In
-                </Link>
+              <TextField
+                margin="normal"
+                fullWidth
+                id="name"
+                label="Full Name"
+                name="name"
+                value={data.name}
+                onChange={handleChange}
+                autoComplete="name"
+                autoFocus
+                sx={{ mb: 2 }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <PersonIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <TextField
+                margin="normal"
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                value={data.email}
+                onChange={handleChange}
+                autoComplete="email"
+                sx={{ mb: 2 }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <EmailIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <TextField
+                margin="normal"
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value={data.password}
+                onChange={handleChange}
+                sx={{ mb: 2 }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LockIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <TextField
+                margin="normal"
+                fullWidth
+                select
+                label="User Type"
+                name="type"
+                value={data.type}
+                onChange={handleChange}
+                SelectProps={{
+                  native: true,
+                }}
+                sx={{ mb: 3 }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <AccountCircleIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              >
+                <option value="" disabled>
+                  Select User Type
+                </option>
+                <option value="Renter">Renter</option>
+                <option value="Owner">Owner</option>
+              </TextField>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                sx={{ py: 1.5, fontWeight: "bold", fontSize: "1rem" }}
+              >
+                Sign Up
+              </Button>
+              <Grid container justifyContent="center" mt={3}>
+                <Typography variant="body2">
+                  Already have an account?{" "}
+                  <Link
+                    to="/login"
+                    style={{ color: "#1976d2", fontWeight: "500" }}
+                  >
+                    Sign In
+                  </Link>
+                </Typography>
               </Grid>
-            </Grid>
-          </Box>
-        </Box>
+            </Box>
+          </CardContent>
+        </Card>
       </Container>
     </>
   );

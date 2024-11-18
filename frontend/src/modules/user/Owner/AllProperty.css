@@ -1,0 +1,107 @@
+.all-property-container {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+   gap: 20px;
+   padding: 20px;
+   background-color: #eef2f7;
+}
+
+.booking-item {
+   background-color: #ffffff;
+   border-radius: 12px;
+   padding: 20px;
+   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+   transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.booking-item:hover {
+   transform: translateY(-5px);
+   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.booking-header h3 {
+   font-size: 18px;
+   margin-bottom: 15px;
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   color: #333;
+}
+
+.booking-details {
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+   margin-bottom: 15px;
+}
+
+.detail-section {
+   display: flex;
+   align-items: center;
+   gap: 10px;
+}
+
+.detail-section p {
+   margin: 0;
+   font-size: 15px;
+   color: #555;
+}
+
+.icon {
+   font-size: 18px;
+   color: #007bff;
+}
+
+.status-section {
+   display: flex;
+   align-items: center;
+   gap: 10px;
+}
+
+.status {
+   padding: 5px 12px;
+   border-radius: 20px;
+   font-weight: bold;
+}
+
+.status-pending {
+   background-color: #ffeeba;
+   color: #856404;
+}
+
+.status-booked {
+   background-color: #d4edda;
+   color: #155724;
+}
+
+.actions-section {
+   display: flex;
+   justify-content: flex-end;
+}
+
+.action-button {
+   padding: 8px 16px;
+   border: none;
+   border-radius: 20px;
+   font-size: 14px;
+   cursor: pointer;
+   transition: background-color 0.3s;
+}
+
+.action-button.approve {
+   background-color: #28a745;
+   color: #ffffff;
+}
+
+.action-button.approve:hover {
+   background-color: #218838;
+}
+
+.action-button.revert {
+   background-color: #dc3545;
+   color: #ffffff;
+}
+
+.action-button.revert:hover {
+   background-color: #c82333;
+}
