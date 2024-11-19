@@ -2,23 +2,6 @@ const propertySchema = require("../schemas/propertyModel");
 const userSchema = require("../schemas/userModel");
 const bookingSchema = require("../schemas/bookingModel");
 
-// Utility function for sending success response
-const sendSuccessResponse = (res, message, data = null) => {
-  return res.status(200).send({
-    success: true,
-    message: message,
-    data: data,
-  });
-};
-
-// Utility function for sending error response
-const sendErrorResponse = (res, message, statusCode = 400) => {
-  return res.status(statusCode).send({
-    success: false,
-    message: message,
-  });
-};
-
 const getAllUsersController = async (req, res) => {
   try {
     const allUsers = await userSchema.find({});
