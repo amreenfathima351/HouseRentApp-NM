@@ -2,23 +2,6 @@ const bookingSchema = require("../schemas/bookingModel");
 const propertySchema = require("../schemas/propertyModel");
 const userSchema = require("../schemas/userModel");
 
-// Utility function for sending success responses
-const sendSuccessResponse = (res, message, data = null) => {
-  return res.status(200).send({
-    success: true,
-    message: message,
-    data: data,
-  });
-};
-
-// Utility function for sending error responses
-const sendErrorResponse = (res, message, statusCode = 400) => {
-  return res.status(statusCode).send({
-    success: false,
-    message: message,
-  });
-};
-
 const addPropertyController = async (req, res) => {
   try {
     let images = [];
