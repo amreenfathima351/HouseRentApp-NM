@@ -44,7 +44,7 @@ Once the application is up and running, you can:
 
 ## Team Details
 This project is a collaborative effort by a team:
-1. Amreen Fathima A - 410621104011
-2. Dharshini K - 410621104024
-3. Archanaa M - 410621104014
-4. Lufiya Banu A - 410621104052 
+1. Amreen Fathima A - Team Lead & Testing
+2. Dharshini K - Backend Developer
+3. Archanaa M - Database Administrator
+4. Lufiya Banu A - Frontend Developer
