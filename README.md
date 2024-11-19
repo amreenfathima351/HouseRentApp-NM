@@ -21,11 +21,11 @@ HomiFind is a comprehensive real estate application designed to simplify finding
 To get a local copy up and running, follow these steps:
 1. Clone the repository:
 ```bash
-git clone https://github.com/amreenfathima351/HomiFind-App.git
+git clone https://github.com/amreenfathima351/HouseRentApp-NM.git
 ```
 2. Navigate to the Project directory
 ```bash
-cd HomiFind-App
+cd HouseRentApp-NM
 ```
 3. Install dependencies
 ```bash
